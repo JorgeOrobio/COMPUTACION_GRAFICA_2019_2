@@ -11,6 +11,7 @@ AZUL=[0,0,255]
 reloj=pg.time.Clock()
 ls_puntos=[]
 index = 1
+dibujo = 1
 while not fin:
     event=pg.event.get()
     for e in event:
@@ -19,15 +20,22 @@ while not fin:
         if e.type == pg.MOUSEBUTTONDOWN:
             ls_puntos.append(e.pos)
             if len(ls_puntos) >= 2:
-                pg.draw.line(pantalla,BLANCO,ls_puntos[index-1],ls_puntos[index])
-                index+=1
+                pantalla.fill(NEGRO)
+                dibujo = index
+                for dibujo in  len(ls_puntos):
+                    pg.draw.line(pantalla,BLANCO,ls_puntos[dibujo-1],ls_puntos[dibujo])
+                p= (pg.mouse.get_pos())
+                print(p)
+                pg.draw.line(pantalla,AZUL,ls_puntos[index],p)
                 pg.display.flip()
-            if index > 2:
-                print("DEBERIA MOVERSE")
-                while e.type != pg.MOUSEBUTTONDOWN:
-                    print("ENTRO WHILE")
-                    p= (pg.mouse.get_pos())
-                    pantalla.fill(NEGRO)
-                    pg.draw.line(pantalla,BLANCO,ls_puntos[index],p)
-                    pg.display.flip()
-                    reloj.tick(20)
+                reloj.tick(20)
+                index+=1
+            # if index > 2:
+            #     print("DEBERIA MOVERSE")
+            #     while e.type != pg.MOUSEBUTTONDOWN:
+            #         print("ENTRO WHILE")
+            #         p= (pg.mouse.get_pos())
+            #         pantalla.fill(NEGRO)
+            #         reloj.tick(20)
+            #         pg.display.flip()
+            #         pg.draw.line(pantalla,BLANCO,ls_puntos[index],p)
