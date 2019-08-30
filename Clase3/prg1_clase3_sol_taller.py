@@ -32,9 +32,6 @@ ORIGEN = [300,150]
 def transformacion_cartesiano_pantalla(x_cor,y_cor):
     x_t=x_cor+ORIGEN[0]
     y_t = ORIGEN[1]- y_cor
-    print(x_t)
-    print(y_t)
-    print("Espacio\n")
     return x_t,y_t
 
 def dibujar_plano(pantalla):
