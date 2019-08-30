@@ -41,7 +41,7 @@ while not fin:
                     g+=5
                     color_actual=[r,g,0]
                     print(color_actual)
-                if g = 255:
+                if g == 255:
                     pass
     pantalla.fill(NEGRO)
     pg.draw.line(pantalla,color_actual,[300,150],[x,y])
