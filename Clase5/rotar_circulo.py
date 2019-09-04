@@ -60,7 +60,7 @@ def rotar_punto_horario(pantalla,punto,grados):
     return dev
 
 def dibujar_plano(pantalla):
-        pg.draw.line(pantalla,ROJO,[ANCHO/2,0],[ANCHO/2,ALTO]) #eje Y
+            pg.draw.line(pantalla,ROJO,[ANCHO/2,0],[ANCHO/2,ALTO]) #eje Y
         pg.draw.line(pantalla,AZUL,[0,ALTO/2],[ANCHO,ALTO/2])#eje X
 
 if __name__ == '__main__':
