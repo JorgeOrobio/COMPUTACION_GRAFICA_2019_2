@@ -13,39 +13,6 @@ if __name__ == '__main__':
         for event in pg.event.get():
             if event.type ==pg.QUIT:
                 fin = True
+        marco_pantalla(pantalla,lineas,velx,vely)
 
-            for i in lineas:
-                Recta(i,pantalla,0,1)
-            while lineas[2][1][0]<ancho-10 and lineas[0][0][1]==30:
-                velx=20
-                vely=0
-                for e in lineas:
-                    for i in e:
-                        i[0]+=velx
-                for i in lineas:
-                    Recta(i,pantalla,0,1)
-            while lineas[2][1][1]<alto-50:
-                velx=0
-                vely=30
-                for e in lineas:
-                    for i in e:
-                        i[1]+=vely
-                for i in lineas:
-                    Recta(i,pantalla,0,1)
-            while lineas[0][0][0]>10:
-                velx=-20
-                vely=0
-                for e in lineas:
-                    for i in e:
-                        i[0]+=velx
-                for i in lineas:
-                    Recta(i,pantalla,0,1)
-            while lineas[2][1][1]>40:
-                velx=0
-                vely=-30
-                for e in lineas:
-                    for i in e:
-                        i[1]+=vely
-                for i in lineas:
-                    Recta(i,pantalla,0,1)
         pg.display.flip()

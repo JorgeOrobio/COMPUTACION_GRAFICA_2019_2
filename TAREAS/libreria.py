@@ -1,6 +1,7 @@
-import math
 import pygame as pg
-
+import math
+import random
+import time
 #colores
 blanco = [255,255,255]
 negro = [0,0,0]
@@ -8,14 +9,16 @@ rojo = [255,0,0]
 azul = [0,0,255]
 verde = [0,255,0]
 #dimensiones pantalla
-ancho,alto = [600,600]
+ancho,alto = [1080,500]
 #centro de la pantalla
 centro_x = ancho//2
 centro_y = alto//2
 origen = [centro_x,centro_y]
 
-def multicolor():
-    pass
+#colores
+def color_aleatorio():
+    return [random.randrange(255),random.randrange(255),random.randrange(255)]
+
 #funcion que dibuja el plano cartesiano
 def Plano_Cartesiano(pantalla):
     ox=origen[0]
@@ -25,28 +28,11 @@ def Plano_Cartesiano(pantalla):
 
 #funcion para dibujar una Recta con el mouse
 def Recta(coordenadas,pantalla,a,b):
-    pg.draw.line(pantalla,azul,coordenadas[a],coordenadas[b])
-
-def Por_Menos_Uno(puntos):
-    ls=[]
-    for e in puntos:
-        x=e[0]*-1
-        y=e[1]*-1
-        ls.append([x,y])
-    return ls
-
-def Conjunto_Por_MenosUno(lista):
-    temp=[]
-    temp2=[]
-    for i in lista:
-        temp=Por_Menos_Uno(i)
-        temp2.append(temp)
-        temp=[]
-    return temp2
+    pygame.draw.line(pantalla,rojo,coordenadas[a],coordenadas[b])
 
 #funcion para dibujar un punto con el click
 def Punto(coordenada,pantalla):
-    pg.draw.circle(pantalla,rojo,coordenada,4)
+    pygame.draw.circle(pantalla,rojo,coordenada,4)
 
 #dibujar triangulo
 def Triangulo_Lineas_Auto(coordenadas,pantalla):
@@ -63,13 +49,63 @@ def Triangulo(coordenadas,pantalla,cont):
     if cont == 3:
         Recta(coordenadas,pantalla,cont-3,cont-1)
 
-#pasar de cartesiano a pantalla
-def A_Cartesiano(punto):
-    xp=punto[0]-centro_x
-    yp=-punto[1]+centro_y
-    p=[xp,yp]
-    return p
+#Lista de puntos
+def Por_Menos_Uno(puntos):
+    ls=[]
+    for e in puntos:
+        x=e[0]*-1
+        y=e[1]*-1
+        ls.append([x,y])
+    return ls
 
+#Conjunto de lista de puntos
+def Conjunto_Por_MenosUno(lista):
+    temp=[]
+    temp2=[]
+    for i in lista:
+        temp=Por_Menos_Uno(i)
+        temp2.append(temp)
+        temp=[]
+    return temp2
+
+#dibuja una lista de lineas
+def Dibujar_lista_lineas(pantalla,lineas):
+    for i in lineas:
+        Recta(i,pantalla,0,1)
+
+#dibuja un marco en la pantalla de una secuencia de lineas
+def marco_pantalla(pantalla,lineas,velx,vely):
+    Dibujar_lista_lineas(pantalla,lineas)
+    while lineas[2][1][0]<ancho-10 and lineas[0][0][1]==30:
+        velx=20
+        vely=0
+        for e in lineas:
+            for i in e:
+                i[0]+=velx
+        Dibujar_lista_lineas(pantalla,lineas)
+    while lineas[2][1][1]<alto-50:
+        velx=0
+        vely=30
+        for e in lineas:
+            for i in e:
+                i[1]+=vely
+        Dibujar_lista_lineas(pantalla,lineas)
+    while lineas[0][0][0]>10:
+        velx=-20
+        vely=0
+        for e in lineas:
+            for i in e:
+                i[0]+=velx
+        Dibujar_lista_lineas(pantalla,lineas)
+    while lineas[2][1][1]>40:
+        velx=0
+        vely=-30
+        for e in lineas:
+            for i in e:
+                i[1]+=vely
+        Dibujar_lista_lineas(pantalla,lineas)
+
+#Define si un punto esta cerca o no de otro
 def Esta_Cerca(mouse,punto):
     error=10
     ls=[]
@@ -87,10 +123,16 @@ def Esta_Cerca(mouse,punto):
     else:
         return False
 
+#pasar de cartesiano a pantalla
+def A_Pantalla(punto):
+    xp=punto[0]+centro_x
+    yp=-punto[1]+centro_y
+    p=[xp,yp]
+    return p
 
 #pasar de pantalla a cartesiano
-def A_Pantalla(punto):
-    xp= punto[0]+centro_x
+def A_Cartesiano(punto):
+    xp= punto[0]-centro_x
     yp= -punto[1]+centro_y
     p=[xp,yp]
     return p
@@ -116,6 +158,24 @@ def Rotar_AntiHorario(punto,angulo):
     yp = -punto[0]*math.cos(rad)+punto[1]*math.sin(rad)
     p = [xp,yp]
     return p
+
+def Rosa_polar(a,tam):
+	R = []
+	for i in range(0,360):
+		r = tam*(math.cos(a*math.radians(i)))
+		p = (r*math.cos(math.radians(i)),r*math.sin(math.radians(i)))
+		R.append(p)
+	return R
+
+def Pitagoricas(num_lados,Magnitud):
+	Angulo = 0;
+	R=[]
+	for i in range(num_lados):
+		punto = (Magnitud*math.cos(Angulo), Magnitud*math.sin(Angulo))
+		R.append(punto)
+		Angulo += math.radians(360/num_lados)
+	return R
+
 #Trasladar
 def Trasladar(punto,traslacion):
 	xp=punto[0]+traslacion[0]
@@ -124,14 +184,14 @@ def Trasladar(punto,traslacion):
 	return p
 
 #pasa unos puntos de pantalla a cartesiano
-def Puntos_A_Pantalla(puntos):
-	for i in range(len(puntos)):
-		puntos[i] = A_Pantalla(puntos[i])
-
-#pasa unos puntos de cartesiano a pantalla
 def Puntos_A_Cartesiano(puntos):
 	for i in range(len(puntos)):
 		puntos[i] = A_Cartesiano(puntos[i])
+
+#pasa unos puntos de cartesiano a pantalla
+def Puntos_A_Pantalla(puntos):
+	for i in range(len(puntos)):
+		puntos[i] = A_Pantalla(puntos[i])
 	#return puntos
 
 def Escalar_Puntos(puntos,escala):
@@ -153,6 +213,3 @@ def Rotar_Puntos_AntiHorario(puntos,angulo):
 	for i in range(len(puntos)):
 		puntos[i] = Rotar_AntiHorario(puntos[i],angulo)
     #return puntos
-
-def colorear():
-    pass
