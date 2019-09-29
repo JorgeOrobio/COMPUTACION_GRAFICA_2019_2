@@ -18,27 +18,24 @@ class Fondo(pg.sprite.Sprite):
         pg.display.flip()
         pass
 
-def background(pantalla):
-    reloj=pg.time.Clock()
-    background = Fondo()
-    loop_background(pantalla,background,reloj)
-
-def loop_background(pantalla,background,reloj):
-    if background.x<((background.rect.width - ancho)*-1):
-        background.x=0
+def background(pantalla,fondo):
+    if fondo.x<((fondo.rect.width - ancho)*-1):
+        fondo.x=0
     else:
-        background.update()
-    background.display(pantalla)
+        fondo.update()
+    fondo.display(pantalla)
     reloj.tick(30)
 
 
 if __name__ == '__main__':
     pg.init
     pantalla = pg.display.set_mode([ancho,alto])
+    reloj=pg.time.Clock()
+    fondo = Fondo()
     fin = False
     while not fin:
         for event in pg.event.get():
             #EVENTOS
             if event.type ==pg.QUIT:
                 fin = True
-        background(pantalla)
+        background(pantalla,fondo)
