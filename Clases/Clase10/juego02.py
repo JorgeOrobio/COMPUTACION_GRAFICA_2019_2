@@ -2,6 +2,13 @@ import pygame as pg
 from libreria import*
 import random
 
+
+#OJO CUIDADO VERY IMPORTANT
+#ls= [1,2,3]
+#for i in enumerate(ls):
+#    print(i)
+
+
 class Jugador(pg.sprite.Sprite):
     def __init__(self,pos):
         pg.sprite.Sprite.__init__(self)
