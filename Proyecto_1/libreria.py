@@ -153,11 +153,15 @@ def Rotar_Horario(punto,angulo):
     return p
 
 def Rotar_AntiHorario(punto,angulo):
+    punto= A_Cartesiano(punto)
     rad = math.radians(angulo)
     xp = punto[0]*math.sin(rad)+punto[1]*math.cos(rad)
     yp = -punto[0]*math.cos(rad)+punto[1]*math.sin(rad)
     p = [xp,yp]
+    p = A_Pantalla(p)
     return p
+def Aumentar_Radio(punto,radio):
+    pass
 
 def Rosa_polar(a,tam):
 	R = []
