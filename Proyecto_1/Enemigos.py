@@ -1,3 +1,6 @@
+import pygame as pg
+from libreria import*
+
 class Rival(pg.sprite.Sprite):
     """clase rival"""
     def __init__(self):
@@ -18,4 +21,5 @@ class Rival(pg.sprite.Sprite):
         if self.rect.x > ancho - self.rect.width:
             self.velx= -5
         self.rect.x += self.velx
+        self.rect.y += self.vely
         self.tempo -=1

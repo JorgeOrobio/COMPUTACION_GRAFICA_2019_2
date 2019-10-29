@@ -1,36 +1,56 @@
+import pygame as pg
+from libreria import*
+
 class Jugador(pg.sprite.Sprite):
     """clase jugador"""
     def __init__(self,archivo):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.image.load(archivo)
+        self.fila=1
+        self.col=0
+        self.matriz=archivo
+        self.image = self.matriz[self.col][self.fila]
         self.rect=self.image.get_rect()
-        self.rect.angulo=centro_x
-        self.rect.radio=centro_y
+        self.rect.x=centro_x
+        self.rect.y=centro_y
         self.disparo=self.rect.midtop
-        self.velrad=0
-        self.velang=0
+        self.velx=0
+        self.vely=0
         self.vidas = 10
 
     def update(self):
+        # ANIMACION DE PERSONAJE
+        self.image = self.matriz[self.col][self.fila]
+        if self.velx != 0 or self.vely !=0:
+            if self.col >=4:
+                self.col=0
+            else:
+                self.col+=1
+
         # LIMITES DE PANTALLA PERSONAJE
-        if self.rect.angulo > (ancho - self.rect.width):
-            self.rect.angulo = ancho - self.rect.width
-            self.velang=0
-        if self.rect.angulo < 0:
-            self.rect.angulo=0
-            self.velang=0
-        if self.rect.radio > (alto - self.rect.height):
-            self.rect.radio = alto - self.rect.height
-            self.velrad=0
-        if self.rect.radio < 0:
-            self.rect.radio=0
-            self.velrad=0
+        if self.rect.x > (ancho - self.rect.width):
+            self.rect.x = ancho - self.rect.width
+            self.vely=0
+        if self.rect.x < 0:
+            self.rect.x=0
+            self.vely=0
+        if self.rect.y > (alto - self.rect.height):
+            self.rect.y = alto - self.rect.height
+            self.velx=0
+        if self.rect.y < 0:
+            self.rect.y=0
+            self.velx=0
 
-        self.image=pg.transform.rotate(self.image,self.rect.angulo)
-        self.disparo=Rotar_AntiHorario(self.disparo,self.rect.angulo)
+        self.rect.x+=self.velx
+        self.rect.y+=self.vely
+        """
+        self.image=pg.transform.rotate(self.image,self.vely)
+        self.disparo=Rotar_AntiHorario(self.disparo,self.vely)
         # CAMBIAR EL MOD DEL RADIO PARA CORREGIR EL AVANCE DE LA NAVE
-        self.rect.radio += self.velrad
+        # self.rect.y, self.rect.x= Aumentar_Radio([self.rect.y,self.rect.x],self.velx,self.rect.midright)
+        # self.disparo = Aumentar_Radio_Disparo([self.rect.y,self.rect.x],self.velx,self.rect.midright)
+        """
 
-    def position(self):
+
+    def get_all(self):
         pass
-        return [self.rect.angulo,self.rect.radio]
+        return self.rect.x,self.rect.y
