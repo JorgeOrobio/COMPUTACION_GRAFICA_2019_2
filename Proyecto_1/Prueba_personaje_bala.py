@@ -77,20 +77,33 @@ if __name__ == '__main__':
                         b2.vely=-30
                     if j.fila == 0:
                         b=Bala(j.rect.midbottom,matriz_bala_jugador,2)
+                        b2=Bala(j.rect.bottomleft,matriz_bala_jugador,2)
                         balas_jugador.add(b)
+                        balas_jugador.add(b2)
                         b.vely=30
+                        b2.vely=30
                     if j.fila == 2:
                         b=Bala(j.rect.midright,matriz_bala_jugador,5)
+                        b2=Bala(j.rect.topright,matriz_bala_jugador,5)
                         balas_jugador.add(b)
+                        balas_jugador.add(b2)
                         b.velx=30
+                        b2.velx=30
                     if j.fila == 5:
                         b=Bala(j.rect.midleft,matriz_bala_jugador,4)
+                        b2=Bala(j.rect.topleft,matriz_bala_jugador,4)
                         balas_jugador.add(b)
+                        balas_jugador.add(b2)
                         b.velx=-30
+                        b2.velx=-30
             if event.type==pg.KEYUP:
                 if event.key != pg.K_SPACE:
                     j.velx=0
                     j.vely=0
+        # LIMPIEZA DE BALAS AL SALIR DE PANTALLA
+        for b in balas_jugador:
+            if b.rect.x<0 or b.rect.x>ancho or b.rect.y>alto or b.rect.y<0:
+                balas_jugador.remove(b)
         jugadores.update()
         balas_jugador.update()
         pantalla.fill(negro)
