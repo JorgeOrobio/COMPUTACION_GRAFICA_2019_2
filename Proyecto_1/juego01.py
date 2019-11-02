@@ -44,14 +44,6 @@ if __name__ == '__main__':
                 fin = True
             #MOVIMIENTO DIRECCIONADO
             if event.type==pg.KEYDOWN:
-                if event.key == pg.K_RIGHT:
-                    j.velx=10
-                    j.vely=0
-                    j.fila=2
-                if event.key == pg.K_LEFT:
-                    j.velx=-10
-                    j.vely=0
-                    j.fila=5
                 if event.key == pg.K_DOWN:
                     j.vely=10
                     j.velx=0

@@ -9,7 +9,7 @@ rojo = [255,0,0]
 azul = [0,0,255]
 verde = [0,255,0]
 #dimensiones pantalla
-ancho,alto = [1024,480]
+ancho,alto = [1080,600]
 #centro de la pantalla
 centro_x = ancho//2
 centro_y = alto//2
@@ -137,6 +137,29 @@ def A_Cartesiano(punto):
     p=[xp,yp]
     return p
 
+def DCA_UnPunto(punto,descentrar):
+    xp=punto[0]+descentrar[0]
+    yp=-punto[1]+descentrar[1]
+    p=[xp,yp]
+    return p
+
+def CA_UnPunto(punto,centrar):
+    xp= punto[0]-centrar[0]
+    yp= -punto[1]+centrar[1]
+    p=[xp,yp]
+    return p
+
+def cartesianas_a_polares(x,y):
+    r = int(math.sqrt(x**2 + y **2))
+    angulo = math.atan(y/x)
+    angulo = angulo* 180 / math.pi
+    return r,angulo
+
+def coordenadas_polares1(r,angulo):
+    angu1= math.radians(angulo)
+    p =(int(r*math.cos(angu1)), int(r*math.sin(angu1)))
+    return p
+
 #Escalar
 def Escalar(punto,escala):
 	xp = punto[0]*escala[0]
@@ -153,11 +176,52 @@ def Rotar_Horario(punto,angulo):
     return p
 
 def Rotar_AntiHorario(punto,angulo):
+    punto= A_Cartesiano(punto)
     rad = math.radians(angulo)
     xp = punto[0]*math.sin(rad)+punto[1]*math.cos(rad)
     yp = -punto[0]*math.cos(rad)+punto[1]*math.sin(rad)
     p = [xp,yp]
+    p = A_Pantalla(p)
     return p
+
+def JRotar_AntiHorario(punto,angulo,centro):
+    punto= CA_UnPunto(punto,centro)
+    rad = math.radians(angulo)
+    xp = punto[0]*math.sin(rad)+punto[1]*math.cos(rad)
+    yp = -punto[0]*math.cos(rad)+punto[1]*math.sin(rad)
+    p = [xp,yp]
+    p = DCA_UnPunto(punto,centro)
+    return p
+
+def Aumentar_Radio(punto,radio,centro):
+    punto = CA_UnPunto(punto,centro)
+    r,angulo=cartesianas_a_polares(punto[0],punto[1])
+    r += radio
+    punto = coordenadas_polares1(r,angulo)
+    punto=DCA_UnPunto(punto,centro)
+    return punto[0],punto[1]
+
+def Aumentar_Radio_Disparo(punto,radio,centro):
+    punto = CA_UnPunto(punto,centro)
+    r,angulo=cartesianas_a_polares(punto[0],punto[1])
+    r += radio
+    punto = coordenadas_polares1(r,angulo)
+    punto=DCA_UnPunto(punto,centro)
+    return [punto[0],punto[1]]
+
+def matriz_sprites(imagen,anc,alt,height,high):
+    pass
+    x,y = 0,0
+    matriz=[]
+    lista=[]
+    for j in range(0,anc,height):
+        for i in range(0,alt,high):
+            imag=imagen.subsurface(j,i,height,high)
+            lista.append(imag)
+        matriz.append(lista)
+        lista=[]
+    return matriz
+
 
 def Rosa_polar(a,tam):
 	R = []
