@@ -71,12 +71,16 @@ class Jugador_Dir(pg.sprite.Sprite):
                 self.col=3
             else:
                 self.col+=1
-        self.rect.x += self.velx
-        self.rect.y = self.recalY(self.m,self.b,self.rect.x)
+        if self.rect.x < self.puntof[0]:
+            self.rect.x += self.velx
+            self.rect.y = self.recalY(self.m,self.b,self.rect.x)
+        else:
+            self.velx =0
 
     def repos(self,position):
         self.m = ((position[1]-self.rect.y)/(position[0]-self.rect.x))
         self.b= self.rect.y - (self.m*self.rect.x)
+        self.puntof = position
         # self.rect.x
         # self.rect.y
 
