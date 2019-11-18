@@ -62,9 +62,9 @@ if __name__ == '__main__':
         j+=32
         pg.display.flip()
     # CICLO PARA IR MOVIENDO LO ANTERIORMENTE MAPEADO
-    for i in range(0,2080):
-        for j in range(0,)
-    print("SALIO")
+    # for i in range(0,2080):
+    #     for j in range(0,1024)
+    # print("SALIO")
     # for i in matriz:
     #     for j in i:
     #         pantalla.blit(j,[0,0])
